@@ -1,5 +1,6 @@
 import RegistComponent from './RegistComponent'
 import RegisterEnum from './RegisterEnum'
+import BaseRegister from './component/BaseRegister'
 import Upload from './extra/net/Upload'
 import Http from './extra/net/Http'
 
@@ -36,11 +37,11 @@ export default class Krp {
     public static instance() {
         return Krp.krp;
     }
-    public regist(type: string) {
+    public regist(type: string):BaseRegister {
         // TODO: regist the componentregister by registerName where in RetisterEnum
         let register = RegisterEnum[type];
         if (register == null)
-            return console.log(`%c can not fint register with ${type} in ResigterEnum `, 'color:red')
+            return console.log(`%c can not fint register with ${type} in ResigterEnum `, 'color:red'),null;
         return this.registedComponent.regist(register, this.krpano);
     }
     public get(type: string) {
@@ -49,8 +50,8 @@ export default class Krp {
     }
     public docText() {
         // TODO: return the plant text  from register and already exist in tour.xml
-
         
+        return this.registedComponent.out(this.xml);
     }
     public savePano() {
         // TODO: upload tour.xml with 

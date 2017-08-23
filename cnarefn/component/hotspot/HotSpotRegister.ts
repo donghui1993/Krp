@@ -5,7 +5,7 @@ export default class HotSpotRegister extends BaseRegister {
 
     type: string = "hotspot";
 
-    hotspot: Map<string, HotSpotComponent> = new Map<string, HotSpotComponent>();
+    component: Map<string, HotSpotComponent> = new Map<string, HotSpotComponent>();
 
     constructor(krpano){
         super(krpano)
@@ -22,7 +22,7 @@ export default class HotSpotRegister extends BaseRegister {
     addOne() {
         let name = this.getName();
         let hotspot =  this.createHotspot(name);
-        this.hotspot.set(name, hotspot);
+        this.component.set(name, hotspot);
         return hotspot;
     }
 

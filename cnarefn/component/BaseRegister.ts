@@ -1,4 +1,5 @@
-import Uuid from '../extra/string/Uuid'
+import {Uuid} from '../extra/string/Uuid'
+
 import BaseComponent from './BaseComponent'
 
 export default abstract class BaseRegister {
@@ -6,7 +7,7 @@ export default abstract class BaseRegister {
     krpano: any;
 
     abstract type: string;
-
+    abstract component:Map<string,BaseComponent>;
     protected constructor(krpano: any) {
         this.krpano = krpano;
     }

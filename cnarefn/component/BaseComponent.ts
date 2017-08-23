@@ -58,4 +58,15 @@ export default abstract class BaseComponent {
     getproperty(name) {
         return this.properties[name];
     }
+
+    getproperties(){
+        return this.properties;
+    }
+    getDom(){
+        let props = this.getproperties();
+        for (var key in props) {
+            this.dom.setAttribute(key,props[key]);
+        }
+        return this.dom;
+    }
 }
