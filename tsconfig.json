@@ -1,0 +1,23 @@
+{
+	"compilerOptions": {
+		"outDir": "./js",
+		"declaration":true,
+		"outFile": "../krp/public/Krp.bundle.js",
+		"rootDir": "./cnarefn",
+		"target": "es5",
+		"module": "amd",
+		"lib": [
+			"es2015","dom","es5"
+		],
+		"sourceMap": false
+	},
+	"include": [
+		"*.ts"
+	],
+	"exclude": [
+		"*.js"
+	],
+	"files": [
+		"./cnarefn/Krp.ts"
+	]
+}
