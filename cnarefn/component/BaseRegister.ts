@@ -1,4 +1,4 @@
-import {Uuid} from '../extra/string/Uuid'
+import { Uuid } from '../extra/string/Uuid'
 
 import BaseComponent from './BaseComponent'
 
@@ -6,13 +6,18 @@ export default abstract class BaseRegister {
 
     krpano: any;
 
+    parent:HTMLElement;
+
     abstract type: string;
-    abstract component:Map<string,BaseComponent>;
-    protected constructor(krpano: any) {
+
+    abstract component: Map<string, BaseComponent>;
+
+    protected constructor(krpano: any,parent:HTMLElement) {
         this.krpano = krpano;
+        this.parent = parent;
     }
 
-    abstract update(key: string, value: any,component:BaseComponent)
+    abstract update(key: string, value: any, component: BaseComponent)
 
     protected set(key: string, value: any) {
         this.krpano.set(key, value);
@@ -26,10 +31,10 @@ export default abstract class BaseRegister {
         this.krpano.call(action)
     }
 
-    public create(fullType:string){
+    public create(fullType: string) {
         this.call(fullType)
     }
-    
+
     protected spheretoscreen(horizontal: number | string, vertical: number | string) {
         return this.krpano.spheretoscreen(horizontal, vertical)
     }
@@ -38,13 +43,13 @@ export default abstract class BaseRegister {
         return this.krpano.screentosphere(x, y);
     }
 
-    public getLookat(v:string="vlookat",h:string="hlookat") {
+    public getLookat(v: string = "vlookat", h: string = "hlookat") {
         return {
             [v]: this.get('view.vlookat'),
             [h]: this.get('view.hlookat')
         };
     }
-    getName(){
+    getName() {
         return Uuid.generate(8);
     }
 }

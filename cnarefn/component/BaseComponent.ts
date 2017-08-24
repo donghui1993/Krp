@@ -3,6 +3,8 @@ import Propertis from './Propertis'
 
 export default abstract class BaseComponent {
 
+    //parentElement from this at the firstappend
+
     dom: HTMLElement
 
     actor: string
@@ -10,16 +12,22 @@ export default abstract class BaseComponent {
     type: string
 
     protected abstract properties: any  // 保存实际的属性内容
+
     recentProps = {} // 最新更新使用的属性值
 
-    constructor(type: string, name: string) {
+    constructor(type: string, name: string, parent: HTMLElement) {
+
         this.type = type;
-        this.createDom();
+        this.createDom(parent);
         this.createActor(name);
+        
     }
 
-    createDom() {
+    createDom(parent: HTMLElement) {
         this.dom = document.createElement(this.type);
+        parent.appendChild(this.dom);
+        //不明白创建的内容会携带xmlns，这里人工剔除,但是不起作用
+        this.dom.removeAttribute('xmlns');
     }
 
     createActor(name: string) {
@@ -38,20 +46,21 @@ export default abstract class BaseComponent {
      * @param name 已经定义的属性名
      * @param value 属性值
      */
-    setproperty(name, value, init: boolean = false) {
-        if (this.properties[name] != undefined) {
-            this.properties[name] = value
+    setproperty(name, value) {
+        if (this.properties.hasOwnProperty(name)) {
+            this.properties[name] = value;
+            if(value != undefined)
+                this.dom.setAttribute(name, value);
+            else 
+                this.dom.removeAttribute(name);
         };
-        if (!init) {
-            this.recentProps[name] = value;
-        }
         return this;
     }
 
-    setproperties(obj: any, init: boolean = false) {
+    setproperties(obj: any) {
         if (obj == null) return;
         for (let key in obj) {
-            this.setproperty(key, obj[key], init);
+            this.setproperty(key, obj[key]);
         }
     }
 
@@ -59,14 +68,10 @@ export default abstract class BaseComponent {
         return this.properties[name];
     }
 
-    getproperties(){
+    getproperties() {
         return this.properties;
     }
-    getDom(){
-        let props = this.getproperties();
-        for (var key in props) {
-            this.dom.setAttribute(key,props[key]);
-        }
-        return this.dom;
+    domInit() {
+        this.setproperties(this.properties)
     }
 }

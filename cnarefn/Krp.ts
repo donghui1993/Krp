@@ -10,7 +10,7 @@ export default class Krp {
 
     private static krp: Krp;
 
-    private xml: Element;
+    private xml: HTMLElement;
 
     private params: any;
 
@@ -42,7 +42,7 @@ export default class Krp {
         let register = RegisterEnum[type];
         if (register == null)
             return console.log(`%c can not fint register with ${type} in ResigterEnum `, 'color:red'),null;
-        return this.registedComponent.regist(register, this.krpano);
+        return this.registedComponent.regist(register, this);
     }
     public get(type: string) {
         // TODO: get type from 
@@ -50,8 +50,7 @@ export default class Krp {
     }
     public docText() {
         // TODO: return the plant text  from register and already exist in tour.xml
-        
-        return this.registedComponent.out(this.xml);
+        return this.xml.outerHTML;
     }
     public savePano() {
         // TODO: upload tour.xml with 

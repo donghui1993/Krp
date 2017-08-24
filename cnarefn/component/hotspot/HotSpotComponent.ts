@@ -12,17 +12,19 @@ export default class HotSpotComponent extends BaseComponent {
         scale: 0.5,//缩放
         zoom: true,//跟随缩放
         distorted: true, // 跟随屏幕扭曲
-        onloaded: ""
+        onloaded: undefined
     }
 
     joint: string;
 
-    constructor  (type: string, name: string, register: HotSpotRegister) {
-        super(type, name);
+    constructor  (type: string, name: string, register: HotSpotRegister,parent:HTMLElement) {
+        super(type, name,parent);
+        this.setproperty("name", name);
+        this.setproperties(register.getLookat("atv","ath"));
 
-        this.setproperty("name", name, true);
-        this.setproperties(register.getLookat("atv","ath"),true);
         this.create4Pano(register);
+
+        this.domInit();//函数体内有抽象元素的时候，不能直接在父元素内调用，只能通过子元素调用，否则拿不到抽象值的具体内容
     }
     /**
      * 该属性是为单独设置属性，实际上用来设置onloaded的action="do_crop_animation()"

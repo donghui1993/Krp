@@ -4,14 +4,17 @@ export default class RegistComponent {
 
     private register: Map<string, BaseRegister> = new Map<string, BaseRegister>();
 
-    public regist(register, krpano) {
-        // TODO:
+    public regist(register, Krp) {
+        // TODO: regist a component 
         let type = register.type
+        let krpano  =Krp.krpano;
+
+        let parent = Krp.xml.querySelector(register.parentActor);    
         if (this.register.has(type)) {
-            return console.log(`%c ${type} had been registed`, 'color:#220022'),
+            return console.log(`%c ${type} had been registed`, 'color:#22ff22'),
                 this.register.get(type)
         } else {
-            return this.register.set(type, new register(krpano)).get(type);
+            return this.register.set(type, new register(krpano,parent)).get(type);
         }
     }
 
@@ -20,20 +23,4 @@ export default class RegistComponent {
         return this.register.get(type);
     }
 
-    public out(xml: Element): string {
-        // TODO:
-        this.register.forEach((register, key) => {
-            register.component.forEach((component, name) => {
-
-                let dom = xml.querySelector(`[name=${name}]`)
-                
-                if(dom != null){
-                    xml.removeChild(dom)
-                }
-
-                xml.appendChild(component.getDom());
-            })
-        })
-        return "";
-    }
 }
