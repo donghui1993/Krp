@@ -11,16 +11,14 @@ export default abstract class BaseComponent {
 
     type: string
 
+    register:BaseRegister;
+
     protected abstract properties: any  // 保存实际的属性内容
 
     recentProps = {} // 最新更新使用的属性值
 
-    constructor(type: string, name: string, parent: HTMLElement) {
-
+    constructor(type: string) {
         this.type = type;
-        this.createDom(parent);
-        this.createActor(name);
-        
     }
 
     createDom(parent: HTMLElement) {
@@ -39,6 +37,7 @@ export default abstract class BaseComponent {
         for (let key in props) {
             register.update(key, props[key], this)
         }
+        this.register = register;
     }
     /**
      * 设置属性值，如果没有定义则不被设置
@@ -48,11 +47,14 @@ export default abstract class BaseComponent {
      */
     setproperty(name, value) {
         if (this.properties.hasOwnProperty(name)) {
-            this.properties[name] = value;
-            if(value != undefined)
-                this.dom.setAttribute(name, value);
-            else 
-                this.dom.removeAttribute(name);
+            if (this.dom != undefined) {
+                this.properties[name] = value;
+                if (value != undefined)
+                    this.dom.setAttribute(name, value);
+                else
+                    this.dom.removeAttribute(name);
+                this.register.update(name,value,this);
+            }
         };
         return this;
     }

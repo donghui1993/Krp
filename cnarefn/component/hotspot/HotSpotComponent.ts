@@ -1,8 +1,8 @@
-import BaseComponent from '../BaseComponent'
+import BaseElementComponent from '../BaseElementComponent'
 import HotSpotRegister from './HotSpotRegister'
+import ActionComponent from '../action/ActionComponent'
 
-
-export default class HotSpotComponent extends BaseComponent {
+export default class HotSpotComponent extends BaseElementComponent {
 
     protected properties = {
         name: "", //id
@@ -12,17 +12,18 @@ export default class HotSpotComponent extends BaseComponent {
         scale: 0.5,//缩放
         zoom: true,//跟随缩放
         distorted: true, // 跟随屏幕扭曲
-        onloaded: undefined
+        onloaded: undefined,
+        ondown:undefined,
+        onup:undefined
     }
 
     joint: string;
 
     constructor  (type: string, name: string, register: HotSpotRegister,parent:HTMLElement) {
-        super(type, name,parent);
+        super(type,name,parent);
+        this.create4Pano(register);
         this.setproperty("name", name);
         this.setproperties(register.getLookat("atv","ath"));
-
-        this.create4Pano(register);
 
         this.domInit();//函数体内有抽象元素的时候，不能直接在父元素内调用，只能通过子元素调用，否则拿不到抽象值的具体内容
     }
@@ -36,5 +37,13 @@ export default class HotSpotComponent extends BaseComponent {
      */
     setCrop(bool, width, height, frame) {
         this.setproperty('onloaded', bool ? `do_crop_animation(${width},${height},${frame})` : "");
+    }
+    /**
+     * 为当前元素设定action内容
+     * @param actionName 动作名称，必需已经定义在properties中
+     * @param action 动作组件
+     */
+    setAction(actionName,action:ActionComponent){
+        this.setproperty(actionName,action.getAction())
     }
 }

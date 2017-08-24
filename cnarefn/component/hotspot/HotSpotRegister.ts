@@ -7,14 +7,7 @@ export default class HotSpotRegister extends BaseRegister {
 
     type: string = "hotspot";
 
-
-
     component: Map<string, HotSpotComponent> = new Map<string, HotSpotComponent>();
-
-    constructor(krpano, parent: HTMLElement) {
-        super(krpano, parent);
-
-    }
 
     update(key: string, value: any, hotspotComponent: HotSpotComponent) {
         // TODO: update the value for this hotspot

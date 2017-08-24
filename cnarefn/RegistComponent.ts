@@ -4,12 +4,12 @@ export default class RegistComponent {
 
     private register: Map<string, BaseRegister> = new Map<string, BaseRegister>();
 
-    public regist(register, Krp) {
+    public regist(register,type, Krp) {
         // TODO: regist a component 
-        let type = register.type
         let krpano  =Krp.krpano;
 
-        let parent = Krp.xml.querySelector(register.parentActor);    
+        let parent = Krp.xml.querySelector(register.parentActor);
+
         if (this.register.has(type)) {
             return console.log(`%c ${type} had been registed`, 'color:#22ff22'),
                 this.register.get(type)
