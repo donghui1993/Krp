@@ -1,6 +1,7 @@
 import BaseElementComponent from '../BaseElementComponent'
 import HotSpotRegister from './HotSpotRegister'
 import ActionComponent from '../action/ActionComponent'
+import Elcomplex  from '../../extra/object/Elcomplex'
 
 export default class HotSpotComponent extends BaseElementComponent {
 
@@ -12,20 +13,25 @@ export default class HotSpotComponent extends BaseElementComponent {
         scale: 0.5,//缩放
         zoom: true,//跟随缩放
         distorted: true, // 跟随屏幕扭曲
+        crop: undefined,
         onloaded: undefined,
-        ondown:undefined,
-        onup:undefined
+        ondown: undefined,
+        onup: undefined
     }
-
+    // 联合组件内容
     joint: string;
 
-    constructor  (type: string, name: string, register: HotSpotRegister,parent:HTMLElement) {
-        super(type,name,parent);
-        this.create4Pano(register);
-        this.setproperty("name", name);
-        this.setproperties(register.getLookat("atv","ath"));
+    constructor(type: string, name: string, register: HotSpotRegister, el?:HTMLElement) {
+        super(type, name, register.parent,el);
 
-        this.domInit();//函数体内有抽象元素的时候，不能直接在父元素内调用，只能通过子元素调用，否则拿不到抽象值的具体内容
+        if (!el) {
+            this.setproperty("name", name);
+            this.setproperties(register.getLookat("atv", "ath"));
+            this.domInit();//函数体内有抽象元素的时候，不能直接在父元素内调用，只能通过子元素调用，否则拿不到抽象值的具体内容
+        } else {
+            this.setproperties(Elcomplex.nodenamemap2Object(el.attributes));
+        }
+        this.create4Pano(register);
     }
     /**
      * 该属性是为单独设置属性，实际上用来设置onloaded的action="do_crop_animation()"
@@ -43,7 +49,7 @@ export default class HotSpotComponent extends BaseElementComponent {
      * @param actionName 动作名称，必需已经定义在properties中
      * @param action 动作组件
      */
-    setAction(actionName,action:ActionComponent){
-        this.setproperty(actionName,action.getAction())
+    setAction(actionName, action: ActionComponent) {
+        this.setproperty(actionName, action.getAction(this))
     }
 }

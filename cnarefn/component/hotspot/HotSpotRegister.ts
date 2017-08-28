@@ -9,16 +9,40 @@ export default class HotSpotRegister extends BaseRegister {
 
     component: Map<string, HotSpotComponent> = new Map<string, HotSpotComponent>();
 
-    update(key: string, value: any, hotspotComponent: HotSpotComponent) {
+    init(el:HTMLElement){
+        let name = el.getAttribute('name');
+        this.component.set(name,  new HotSpotComponent(this.type, name, this,el));
+    }
+
+    /**
+     * 更新pano中该元素的属性值
+     * 
+     * @param key 属性key
+     * @param value 属性value
+     * @param comp 当前更新的组件内容
+     */
+    update(key: string, value: any, comp: HotSpotComponent) {
         // TODO: update the value for this hotspot
 
-        if (key == undefined){
-            return console.log('not any key could be update');
-        }
-        let _key = `hotspot[${hotspotComponent.getproperty("name")}].${key}`;
+        let _key = `${this.type}[${comp.getproperty("name")}].${key}`;
         this.set(_key, value);
     }
 
+    /**
+     * 删除一个热点元素
+     * @param name 热点名称
+     */
+    delete(name:string) {
+        this.component.get(name).dom.remove();
+        this.component.delete(name);
+        this.call(`removehotspot(${name})`);
+    }
+    get(name:string){
+        return this.component.get(name);
+    }
+    /**
+     * 添加一个普通的hotspot热点内容
+     */
     addOne() {
         let name = this.getName();
         let hotspot = this.createHotspot(name);
@@ -29,6 +53,6 @@ export default class HotSpotRegister extends BaseRegister {
 
     private createHotspot(name) {
         this.call(`addHotspot(${name})`);
-        return new HotSpotComponent(this.type, name, this, this.parent)
+        return new HotSpotComponent(this.type, name, this)
     }
 }
