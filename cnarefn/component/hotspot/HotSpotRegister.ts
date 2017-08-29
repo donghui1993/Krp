@@ -9,9 +9,9 @@ export default class HotSpotRegister extends BaseRegister {
 
     component: Map<string, HotSpotComponent> = new Map<string, HotSpotComponent>();
 
-    init(el:HTMLElement){
+    init(el: HTMLElement) {
         let name = el.getAttribute('name');
-        this.component.set(name,  new HotSpotComponent(this.type, name, this,el));
+        this.component.set(name, new HotSpotComponent(this.type, name, this, el));
     }
 
     /**
@@ -23,21 +23,24 @@ export default class HotSpotRegister extends BaseRegister {
      */
     update(key: string, value: any, comp: HotSpotComponent) {
         // TODO: update the value for this hotspot
-
         let _key = `${this.type}[${comp.getproperty("name")}].${key}`;
         this.set(_key, value);
     }
-
+    savePoint(name,ath,atv){
+        this.component.get(name).setproperties({
+            ath:ath,atv:atv
+        });
+    }
     /**
      * 删除一个热点元素
      * @param name 热点名称
      */
-    delete(name:string) {
+    delete(name: string) {
         this.component.get(name).dom.remove();
         this.component.delete(name);
         this.call(`removehotspot(${name})`);
     }
-    get(name:string){
+    get(name: string) {
         return this.component.get(name);
     }
     /**

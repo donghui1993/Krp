@@ -1,7 +1,7 @@
 import BaseElementComponent from '../BaseElementComponent'
 import HotSpotRegister from './HotSpotRegister'
 import ActionComponent from '../action/ActionComponent'
-import Elcomplex  from '../../extra/object/Elcomplex'
+import Elcomplex from '../../extra/object/Elcomplex'
 
 export default class HotSpotComponent extends BaseElementComponent {
 
@@ -15,14 +15,15 @@ export default class HotSpotComponent extends BaseElementComponent {
         distorted: true, // 跟随屏幕扭曲
         crop: undefined,
         onloaded: undefined,
+        onclick:undefined,
         ondown: undefined,
         onup: undefined
     }
     // 联合组件内容
     joint: string;
 
-    constructor(type: string, name: string, register: HotSpotRegister, el?:HTMLElement) {
-        super(type, name, register.parent,el);
+    constructor(type: string, name: string, register: HotSpotRegister, el?: HTMLElement) {
+        super(type, name, register.parent, el);
 
         if (!el) {
             this.setproperty("name", name);
@@ -31,6 +32,7 @@ export default class HotSpotComponent extends BaseElementComponent {
         } else {
             this.setproperties(Elcomplex.nodenamemap2Object(el.attributes));
         }
+
         this.create4Pano(register);
     }
     /**
@@ -50,6 +52,13 @@ export default class HotSpotComponent extends BaseElementComponent {
      * @param action 动作组件
      */
     setAction(actionName, action: ActionComponent) {
-        this.setproperty(actionName, action.getAction(this))
+        action.addElComponent(actionName, this);
+
+        // if(action.needed){
+        //     this.setpropertyForUpdate(actionName, action.getAction(actionName,this).join(';'));
+        // }else{
+        //     this.setpropertyForPano(actionName, action.getAction(actionName,this).join(';'));
+        // }
+        return this;
     }
 }

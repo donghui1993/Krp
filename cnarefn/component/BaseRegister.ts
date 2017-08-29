@@ -6,20 +6,20 @@ export default abstract class BaseRegister {
 
     krpano: any;
 
-    parent:HTMLElement;
+    parent: HTMLElement;
 
     abstract type: string;
 
     abstract component: Map<string, BaseComponent>;
 
-    protected constructor(krpano: any,parent:HTMLElement) {
+    protected constructor(krpano: any, parent: HTMLElement) {
         this.krpano = krpano;
         this.parent = parent;
     }
 
     abstract update(key: string, value: any, component: BaseComponent)
 
-    abstract init(el:Element);
+    abstract init(el: Element);
     /**
      * 给pano设置内容
      * @param key 设置的参数名
@@ -74,8 +74,8 @@ export default abstract class BaseRegister {
      */
     public getLookat(v: string = "vlookat", h: string = "hlookat") {
         return {
-            [v]: this.get('view.vlookat'),
-            [h]: this.get('view.hlookat')
+            [v]: this.get('view.vlookat') || 0,
+            [h]: this.get('view.hlookat') || 0
         };
     }
     /**

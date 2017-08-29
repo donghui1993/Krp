@@ -5,17 +5,17 @@ import SceneRegister from './component/scene/SceneRegister'
 
 export default class RegisterEnum {
     registers = {
-        hotspot:HotSpotRegister,
-        action:ActionRegister,
-        scene:SceneRegister
+        hotspot: HotSpotRegister,
+        action: ActionRegister,
+        scene: SceneRegister
     }
 
-    get (type){
+    get(type) {
         return this.registers[type];
     }
 
-    getAll(){
+    getAll() {
         return this.registers;
     }
-    
+
 }

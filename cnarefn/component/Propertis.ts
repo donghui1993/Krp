@@ -54,7 +54,7 @@ export default class Properties {
     public setAll(obj) {
         Object.assign(this.props, obj);
     }
-    
+
     public getAll() {
         return this.props;
     }
