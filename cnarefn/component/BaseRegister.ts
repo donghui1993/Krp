@@ -74,8 +74,8 @@ export default abstract class BaseRegister {
      */
     public getLookat(v: string = "vlookat", h: string = "hlookat") {
         return {
-            [v]: this.get('view.vlookat') || 0,
-            [h]: this.get('view.hlookat') || 0
+            [v]: this.get('view.vlookat'),
+            [h]: this.get('view.hlookat')
         };
     }
     /**
@@ -83,5 +83,9 @@ export default abstract class BaseRegister {
      */
     getName() {
         return Uuid.generate(8);
+    }
+
+    getComponent(name: string) {
+        return this.component.get(name);
     }
 }

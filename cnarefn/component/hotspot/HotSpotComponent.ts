@@ -13,11 +13,13 @@ export default class HotSpotComponent extends BaseElementComponent {
         scale: 0.5,//缩放
         zoom: true,//跟随缩放
         distorted: true, // 跟随屏幕扭曲
-        crop: undefined,
-        onloaded: undefined,
-        onclick:undefined,
-        ondown: undefined,
-        onup: undefined
+        tooltip:undefined,// 提示文本
+        linkedscene:undefined, // 链接场景
+        crop: undefined, // 动画剪裁
+        onloaded: undefined, // 加载完成后执行
+        onclick:undefined,// 点击后执行
+        ondown: undefined,// 按下后执行
+        onup: undefined// 弹起后执行
     }
     // 联合组件内容
     joint: string;
@@ -53,12 +55,6 @@ export default class HotSpotComponent extends BaseElementComponent {
      */
     setAction(actionName, action: ActionComponent) {
         action.addElComponent(actionName, this);
-
-        // if(action.needed){
-        //     this.setpropertyForUpdate(actionName, action.getAction(actionName,this).join(';'));
-        // }else{
-        //     this.setpropertyForPano(actionName, action.getAction(actionName,this).join(';'));
-        // }
         return this;
     }
 }

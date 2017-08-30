@@ -4,7 +4,7 @@ import BaseRegister from './component/BaseRegister'
 import Upload from './extra/net/Upload'
 import Http from './extra/net/Http'
 import ForLoop from './extra/object/ForLoop'
-
+import Console from './extra/system/Console'
 
 export default class Krp {
     // this is the version of the Krp
@@ -62,7 +62,7 @@ export default class Krp {
                 register.init(el);
             });
         });
-        console.log('scanner end...')
+        Console.log('scanner end...')
         return this.scan = true;
     }
     /**
@@ -70,12 +70,16 @@ export default class Krp {
      * @param type 标签类型
      */
     public regist(type: string): BaseRegister {
-        // TODO: regist the componentregister by registerName where in RetisterEnum
         let register = this.registerEnum.get(type);
         if (register == null)
-            return console.log(`%c can not fint register with ${type} in ResigterEnum `, 'color:red'), null;
+            return Console.error(`can not fint register with ${type} in ResigterEnum `), null;
         return this.registedComponent.regist(register, type, this);
     }
+    /**
+     * 回调解析js内容
+     * @param jsCall 回调js内容 使用 $index 匹配参数列表内容，index从0开始
+     * @param others 参数列表
+     */
     public callParse(jsCall,...others){
         if(others){
             others.forEach((str ,index)=> {
@@ -85,8 +89,9 @@ export default class Krp {
         eval(`${jsCall}`);
     }
     /**
-     * 由于js( )回调的的功能缺陷，所以自定义解析函数
-     * 第一个参数是js的
+     * 回调解析krpano中的内容
+     * @param jsCall 回调krpano的内容，使用 $index 匹配参数列表内容，index从0开始
+     * @param others 参数列表
      */
     public krpParse(jsCall,...others){
         if(others){
@@ -101,14 +106,13 @@ export default class Krp {
      * @param type 标签类型
      */
     public getRegister(type: string) {
-        // TODO: get type from registed component
         return this.registedComponent.get(type);
     }
     /**
      * 获取文档文本
      */
     public docText() {
-        // TODO: return the plant text  from register and already exist in tour.xml
+
         // 由于所属成员是XMLDocument对象，所以清除outerHTML中的xmlns内容
         return this.xml.outerHTML.replace(new RegExp('xmlns="http://www.w3.org/1999/xhtml" ', 'g'), '');
     }
@@ -116,7 +120,6 @@ export default class Krp {
      * 上传保存文档文本内容
      */
     public savePano() {
-        // TODO: upload tour.xml with docText
         let upload = this.params.upload;
         let params = Object.assign({
             tour: this.docText()

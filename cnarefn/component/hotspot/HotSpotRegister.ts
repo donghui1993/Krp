@@ -40,9 +40,7 @@ export default class HotSpotRegister extends BaseRegister {
         this.component.delete(name);
         this.call(`removehotspot(${name})`);
     }
-    get(name: string) {
-        return this.component.get(name);
-    }
+    
     /**
      * 添加一个普通的hotspot热点内容
      */
@@ -50,6 +48,16 @@ export default class HotSpotRegister extends BaseRegister {
         let name = this.getName();
         let hotspot = this.createHotspot(name);
 
+        this.component.set(name, hotspot);
+        return hotspot;
+    }
+    /**
+     * 添加一个场景的热点
+     */
+    addSceneOne(sceneName:string){
+        let name = this.getName();
+        let hotspot = this.createHotspot(name);
+        hotspot.setpropertyForUpdate('linkedscene',sceneName);
         this.component.set(name, hotspot);
         return hotspot;
     }

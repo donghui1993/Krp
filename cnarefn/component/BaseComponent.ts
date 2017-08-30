@@ -1,6 +1,7 @@
 import BaseRegister from './BaseRegister'
 import Propertis from './Propertis'
 
+
 export default abstract class BaseComponent {
 
     //parentElement from this at the firstappend
@@ -12,6 +13,8 @@ export default abstract class BaseComponent {
     type: string
 
     register: BaseRegister;
+
+    private comment:string;
 
     protected abstract properties: any  // 保存实际的属性内容
 
@@ -75,6 +78,7 @@ export default abstract class BaseComponent {
      */
     setpropertyForPano(name, value) {
         this.register.update(name, value, this);
+        return this;
     }
     /**
      * 设置属性值并且更新pano中该元素内容
@@ -86,6 +90,7 @@ export default abstract class BaseComponent {
         if (this.setproperty(name, value) == 0) {
             this.setpropertyForPano(name, value);
         }
+        return this;
     }
     /**
      * 更新所有属性值并且更新pano中该元素内容
@@ -98,6 +103,7 @@ export default abstract class BaseComponent {
         for (let key in obj) {
             this.setpropertyForUpdate(key, obj[key]);
         }
+        return this;
     }
     /**
      * 更新所有值，不更新pano中该元素
@@ -110,6 +116,7 @@ export default abstract class BaseComponent {
         for (let key in obj) {
             this.setproperty(key, obj[key]);
         }
+        return this;
     }
 
     getproperty(name) {
@@ -122,5 +129,17 @@ export default abstract class BaseComponent {
 
     domInit() {
         this.setproperties(this.properties)
+    }
+
+    setComment(comment:string){
+        this.comment =comment ;
+        return this;
+    }
+    getComment(){
+        return this.comment;
+    }
+    showSelf(){
+        console.log(this);
+        return this;
     }
 }

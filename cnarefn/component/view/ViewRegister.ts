@@ -1,5 +1,6 @@
 import BaseRegister from '../BaseRegister'
 import ViewComponent from './ViewComponent'
+import Console from '../../extra/system/Console'
 
 export default class ViewRegister extends BaseRegister {
 
@@ -17,7 +18,7 @@ export default class ViewRegister extends BaseRegister {
         // TODO: update the value for this hotspot
 
         if (key == undefined) {
-            return console.log('not any key could be update');
+            return Console.error('not any key could be update');
         }
         let _key = `${this.type}[${comp.getproperty("name")}].${key}`;
         this.set(_key, value);

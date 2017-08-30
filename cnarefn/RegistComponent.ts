@@ -1,4 +1,5 @@
 import BaseRegister from './component/BaseRegister'
+import Console from './extra/system/Console'
 
 export default class RegistComponent {
 
@@ -10,7 +11,7 @@ export default class RegistComponent {
 
         let parent = Krp.xml.querySelector(register.parentActor) || Krp.xml;
         if (this.register.has(type)) {
-            return console.log(`%c ${type} had been registed`, 'color:#22ff22'),
+            return Console.info(`${type} had been registed`),
                 this.register.get(type)
         } else {
             return this.register.set(type, new register(krpano, parent)).get(type);

@@ -27,9 +27,4 @@ export default class ActionRegister extends BaseRegister {
         }
         return this.component.get(name);
     }
-    // 得到绑定的action内容
-    getActionComponent(name: string) {
-        this.component.get(name);
-    }
-
 }

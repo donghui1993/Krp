@@ -3,6 +3,7 @@ import ActionRegister from './ActionRegister'
 import BaseElementComponent from '../BaseElementComponent'
 import ComponentContainer from '../ComponentContainer'
 import Elcomplex from '../../extra/object/Elcomplex'
+import Console from '../../extra/system/Console'
 
 export default class ActionComponent extends BaseComponent {
 
@@ -37,6 +38,7 @@ export default class ActionComponent extends BaseComponent {
 
         if (el) {
             this.dom = el;
+            this.needed = true;
             this.setActions(el.innerHTML.split(';'))
             this.setproperties(Elcomplex.nodenamemap2Object(el.attributes))
         } else {
@@ -90,7 +92,7 @@ export default class ActionComponent extends BaseComponent {
         if (isupdate) {
             this.updateAll();
         }
-
+        return this;
     }
 
     /**
@@ -101,7 +103,7 @@ export default class ActionComponent extends BaseComponent {
     addElComponent(actionName: string, ele: BaseElementComponent) {
         let name = ele.getproperty('name');
         if (!name) { // 对象必需存在name属性
-            return console.log("if use action ,component must set a name properties")
+            return Console.error("if use action ,component must set a name properties")
         }
         let compContainer = this.allComponents.get(name) || (new ComponentContainer(actionName, ele));
 
