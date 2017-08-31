@@ -1,17 +1,28 @@
 import BaseElementComponent from '../BaseElementComponent'
 import SceneRegister from './SceneRegister'
+import Elcomplex from '../../extra/object/Elcomplex'
 
 export default class SceneComponent extends BaseElementComponent {
 
-    properties = {}
-    constructor(type: string, name: string, register: SceneRegister) {
-        super(type, name, register.parent);
-
-        this.create4Pano(register);
-        this.setproperty("name", name);
-        this.setproperties(register.getLookat("atv", "ath"));
-
-        this.domInit();//函数体内有抽象元素的时候，不能直接在父元素内调用，只能通过子元素调用，否则拿不到抽象值的具体内容
+    properties = {
+        name: "",
+        title: "",
+        onstart: undefined,
+        havevrimage: "true",
+        thumburl: "panos/tiles/thumb.jpg",
+        lat: "",
+        lng: "",
+        heading: ""
+    }
+    constructor(type: string, name: string, register: SceneRegister, el?: HTMLElement) {
+        super(type, name, register.parent, el);
+        this.register = register;
+        if (el) {
+            this.dom = el;
+            this.setproperties(Elcomplex.nodenamemap2Object(el.attributes))
+        } else {
+            this.setproperty('name', name);
+        }
     }
 
 }

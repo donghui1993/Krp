@@ -20,13 +20,6 @@ export default class ActionComponent extends BaseComponent {
     allComponents: Map<string, ComponentContainer> = new Map<string, ComponentContainer>();
 
     // 动作脚本内容，可以从外部更新
-    /**
-     * "spheretoscreen(ath, atv, x, y, 'l')",
-        "sub(dragx, mouse.stagex, x)",
-        "sub(dragy, mouse.stagey, y)",
-        "asyncloop(pressed,sub(dx, mouse.stagex, dragx);sub(dy, mouse.stagey, dragy);screentosphere(dx, dy, ath, atv);)"
-     */
-
     actions: Array<string> = [];
 
     //字符化内容
@@ -35,7 +28,6 @@ export default class ActionComponent extends BaseComponent {
     constructor(type: string, name: string, register: ActionRegister, el?: HTMLElement) {
         super(type);
         this.register = register;
-
         if (el) {
             this.dom = el;
             this.needed = true;
@@ -79,7 +71,9 @@ export default class ActionComponent extends BaseComponent {
      * @param bool 是否需要填充到页面中去
      */
     setNeeded(bool: boolean) {
-        let isupdate = this.needed != bool
+        if(this.needed  == bool){ // 如果当前和既定的是不一致的才可以更新
+            return;
+        }
         if (bool && !this.dom) {
             this.createDom(this.register.parent).innerText = this.actionStrs;
             this.domInit();
@@ -89,9 +83,7 @@ export default class ActionComponent extends BaseComponent {
             }
         }
         this.needed = bool;
-        if (isupdate) {
-            this.updateAll();
-        }
+        this.updateAll();
         return this;
     }
 
@@ -132,6 +124,24 @@ export default class ActionComponent extends BaseComponent {
         this.actions.push(str);
         this.actionStrs += ';'
         this.actionStrs += str;
+        return this;
+    }
+    /**
+     * 清空脚本内容
+     */
+    empty(){
+        this.actions = [];
+        this.actionStrs = "";
+        this.dom.innerHTML="";
+        return this;
+    }
+    /**
+     * 填充该内容到dom中去
+     */
+    done(){
+        if(this.dom){
+            this.dom.innerHTML = this.actionStrs;
+        }
         return this;
     }
 }

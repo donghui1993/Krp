@@ -11,7 +11,8 @@ export default class ViewRegister extends BaseRegister {
     component: Map<string, ViewComponent> = new Map<string, ViewComponent>();
 
     init(el: HTMLElement) {
-
+        let name = el.getAttribute('name') || this.getName();
+        this.component.set(name, new ViewComponent(this.type, name, this, el));
     }
 
     update(key: string, value: any, comp: ViewComponent) {

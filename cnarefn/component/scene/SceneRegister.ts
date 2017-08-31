@@ -1,7 +1,7 @@
 import BaseRegister from '../BaseRegister'
 import SceneComponent from './SceneComponent'
 import Console from '../../extra/system/Console'
-
+import Elcomplex from '../../extra/object/Elcomplex'
 export default class SceneRegister extends BaseRegister {
 
     static parentActor = "krpano";
@@ -11,7 +11,8 @@ export default class SceneRegister extends BaseRegister {
     component: Map<string, SceneComponent> = new Map<string, SceneComponent>();
 
     init(el: HTMLElement) {
-
+        let name = el.getAttribute('name');
+        this.component.set(name, new SceneComponent(this.type, name, this, el));
     }
 
     update(key: string, value: any, comp: SceneComponent) {
