@@ -47,6 +47,7 @@ export default class HotSpotComponent extends BaseElementComponent {
      */
     setCrop(bool, width, height, frame) {
         this.setproperty('onloaded', bool ? `do_crop_animation(${width},${height},${frame})` : "");
+        return this;
     }
     /**
      * 为当前元素设定action内容

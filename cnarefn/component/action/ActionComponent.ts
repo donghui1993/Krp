@@ -31,7 +31,9 @@ export default class ActionComponent extends BaseComponent {
         if (el) {
             this.dom = el;
             this.needed = true;
-            this.setActions(el.innerHTML.split(';'))
+            if (el.innerText) {
+                this.setActions(el.innerText.split(';'))
+            }
             this.setproperties(Elcomplex.nodenamemap2Object(el.attributes))
         } else {
             this.setproperty('name', name);
@@ -71,7 +73,7 @@ export default class ActionComponent extends BaseComponent {
      * @param bool 是否需要填充到页面中去
      */
     setNeeded(bool: boolean) {
-        if(this.needed  == bool){ // 如果当前和既定的是不一致的才可以更新
+        if (this.needed == bool) { // 如果当前和既定的是不一致的才可以更新
             return;
         }
         if (bool && !this.dom) {
@@ -102,7 +104,7 @@ export default class ActionComponent extends BaseComponent {
         if (!compContainer.contains(actionName)) {
             compContainer.addMore(actionName);
         }
-        
+
         this.allComponents.set(name, compContainer);
         this.updateOne(actionName, ele);
     }
@@ -129,18 +131,20 @@ export default class ActionComponent extends BaseComponent {
     /**
      * 清空脚本内容
      */
-    empty(){
+    empty() {
         this.actions = [];
         this.actionStrs = "";
-        this.dom.innerHTML="";
+        if (this.dom) {
+            this.dom.innerText = ""
+        }
         return this;
     }
     /**
      * 填充该内容到dom中去
      */
-    done(){
-        if(this.dom){
-            this.dom.innerHTML = this.actionStrs;
+    done() {
+        if (this.dom) {
+            this.dom.innerText = this.actionStrs;
         }
         return this;
     }

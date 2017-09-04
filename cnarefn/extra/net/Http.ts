@@ -36,8 +36,9 @@ export default class Http {
      */
     private static Serialization(params: any = {}) {
         let arr = [];
+        
         for (let k in params) {
-            arr.push([k, params[k]].join("="))
+            arr.push([k,encodeURIComponent( params[k] )].join("="))
         }
         return arr.join('&')
     }
